@@ -14,7 +14,7 @@ prequisites are that you install/run the following:
 + MNIST datasets to download [visit here (SSL IS EXPIRED, open in compatible browser like firefox)](http://yann.lecun.com/exdb/mnist/)
 
 ## Retargeting .NET Core/Framework
-This code can run on any version of C# all the way down to .NET Framework 2.0 if you exclude the Image import data and use the Windows precompiler settings.
-On Windows it will try to use System.Drawing for the code, this is why the inclusion of #IF Pre-processor lines are used.
+This code can run on any version of C# all the way down to .NET Framework 2.0 if you exclude the Image import data and use the `#Windows` precompiler settings.
+On Windows it will try to use `System.Drawing` for the code, this is why the inclusion of `#IF` Pre-processor lines are used.
 
-To Debug similarly use the name #DEBUGLOG at the top of the script
+To Debug similarly use the name `#DEBUGLOG` at the top of the script
