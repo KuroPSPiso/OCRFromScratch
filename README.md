@@ -5,12 +5,13 @@ You can run this version of OCR on any machine. The code will be self serving ap
 prequisites are that you install/run the following:
 + .NET 8.0 [download here](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) (.NET 7.0 is also supported but current Target is 8.0)
 + SixLabors Image [download here](https://nuget.org/packages/SixLabors.ImageSharp) (used for multi platform image importing and RGB data extraction)
-+ VS2022 (for .NET 7 and higher)
++ VS2022 (for .NET 7 and higher) [download community version here](https://visualstudio.microsoft.com/vs/community/)
+  + To test a older version of VS (download here)[https://visualstudio.microsoft.com/vs/older-downloads/]
 
 ## Helpful links
 
 + Video based on the creation of this software in Python (original video) [watch here](https://www.youtube.com/watch?v=vzabeKdW9tE) 
- + this is only build up until the number part, the clothes algorithm is not included in this project 
+  + this is only build up until the number part, the clothes algorithm is not included in this project 
 + MNIST datasets to download [visit here (SSL IS EXPIRED, open in compatible browser like firefox)](http://yann.lecun.com/exdb/mnist/)
 
 ## Retargeting .NET Core/Framework
