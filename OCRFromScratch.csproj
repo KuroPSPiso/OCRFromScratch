@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Platforms>AnyCPU;x64</Platforms>
+    <ApplicationIcon />
+    <StartupObject>OCRFromScratch.Program</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="data\t10k-images.idx3-ubyte" />
+    <None Remove="data\t10k-labels.idx1-ubyte" />
+    <None Remove="data\train-images.idx3-ubyte" />
+    <None Remove="data\train-labels.idx1-ubyte" />
+    <None Include="data\t10k-images.idx3-ubyte">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="data\t10k-labels.idx1-ubyte">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="data\train-images.idx3-ubyte">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="data\train-labels.idx1-ubyte">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.2" />
+    <PackageReference Include="System.Drawing.Common" Version="8.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="data\custom.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
