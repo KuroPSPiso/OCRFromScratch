@@ -3,6 +3,8 @@
 using System;
 using System.Collections.Generic;
 using SixLabors.ImageSharp.PixelFormats;
+using System.Runtime.CompilerServices;
+
 
 
 #if WINDOWS
@@ -88,6 +90,29 @@ namespace OCRFromScratch
         const int testDataLen = 5;
         const int k = 3;
 
+        public static void InspectImages(DataImageFlat[] xTrainFlat, byte[] yTrain, int index, int length)
+        {
+            for (int range = 0; range < length; range++)
+            {
+                int charSelect = index + range;
+                byte[] xTrainFlatImage0 = new byte[28 * 28];
+                for (int iTrainFlatImage0Pixel = 0; iTrainFlatImage0Pixel < 28 * 28; iTrainFlatImage0Pixel++)
+                {
+                    xTrainFlatImage0[iTrainFlatImage0Pixel] = xTrainFlat[charSelect].GetPixel(28, 28, iTrainFlatImage0Pixel % 28, iTrainFlatImage0Pixel / 28);
+                }
+                Console.WriteLine("label: {0} for img:", yTrain[charSelect]);
+                for (int yXTrainFlatImage0Row = 0; yXTrainFlatImage0Row < 28; yXTrainFlatImage0Row++)
+                {
+                    byte[] charImgRow = new byte[28];
+                    for (int xXTrainFlatImage0Row = 0; xXTrainFlatImage0Row < 28; xXTrainFlatImage0Row++)
+                    {
+                        charImgRow[xXTrainFlatImage0Row] = (xTrainFlatImage0[xXTrainFlatImage0Row + yXTrainFlatImage0Row * 28] != 0x00) ? (byte)0x04 : (byte)0x08;
+                    }
+
+                    Console.WriteLine("[{0}]", string.Join("", charImgRow));
+                }
+            }
+        }
 
         static void Main(string[] args)
         {
@@ -99,6 +124,7 @@ namespace OCRFromScratch
 #if DEBUGLOG
             Console.WriteLine(xTrain.Length);
             Console.WriteLine(xTrainFlat.Length);
+            InspectImages(xTrainFlat, yTrain, 0, 5);
 #endif
 
             DataImageFlat[] xTestFlat;
