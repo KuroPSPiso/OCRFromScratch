@@ -10,7 +10,7 @@ using SixLabors.ImageSharp.Processing;
 
 namespace OCRFromScratch
 {
-    internal class Fonts
+    public class Fonts
     {
         public static char[] Labels =
         {
@@ -18,6 +18,18 @@ namespace OCRFromScratch
             'a','b','c','d','e','f','g','h','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
             'A','B','C','D','E','F','G','H','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'
         };
+
+        public static DataImage[] ReadImagesFromFolder(string pathToDir, out DataImageFlat[] flat, out byte[] label, int maxImages = 0)
+        {
+            DirectoryInfo di = new DirectoryInfo(pathToDir);
+            List<string> paths = new List<string>();
+            foreach(FileInfo fi in di.GetFiles())
+            {
+                paths.Add(Path.Combine(pathToDir, fi.Name));
+            }
+
+            return ReadFontDataFromImage(paths.ToArray(), out flat, out label, maxImages);
+        }
 
         /// <summary>
         /// Download and extract data

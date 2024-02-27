@@ -23,7 +23,7 @@ using System.IO;
 
 namespace OCRFromScratch
 {
-    class DataPoint
+    public class DataPoint
     {
         public DataImageFlat X { get; set; }
         public DataImageFlat Y { get; set; }
@@ -35,7 +35,7 @@ namespace OCRFromScratch
         }
     }
 
-    class DataImageFlat
+    public class DataImageFlat
     {
         public byte[] PixelData { get { return this.pixelData; } }
         private byte[] pixelData;
@@ -55,7 +55,7 @@ namespace OCRFromScratch
         }
     }
 
-    class DataImage
+    public class DataImage
     {
         public byte[,] PixelData { get { return this.pixelData; } }
         private byte[,] pixelData;
@@ -118,6 +118,7 @@ namespace OCRFromScratch
         {
             Console.WriteLine(Directory.GetCurrentDirectory());
 
+            #region test_train
             DataImageFlat[] xTrainFlat;
             DataImage[] xTrain = ReadImages(trainDataFN, out xTrainFlat, trainDataLen, true);
             byte[] yTrain = ReadLabels(trainLabelsFN, trainDataLen);
@@ -126,7 +127,6 @@ namespace OCRFromScratch
             Console.WriteLine(xTrainFlat.Length);
             InspectImages(xTrainFlat, yTrain, 0, 5);
 #endif
-
             DataImageFlat[] xTestFlat;
             DataImage[] xTest = ReadImages(testDataFN, out xTestFlat, testDataLen);
             byte[] yTest = ReadLabels(testLabelsFN, testDataLen);
@@ -141,11 +141,31 @@ namespace OCRFromScratch
                 if (yPredictions[iTestRes] == yTest[iTestRes]) testSum++;
             }
             Console.WriteLine("accuracy: {0}%", testSum / (double)yPredictions.Length * 100);
+            #endregion test_train
+
+            #region custom_train
+            //Custom Dataset
+            xTrain = Fonts.ReadImagesFromFolder("fonts\\regular", out xTrainFlat, out yTrain);
+
+            //InspectImages(xTrainFlat, yTrain, 0, 5);
+        #   endregion custom_train
 
             //test custom data
-            xTest = ReadImagesFromFile(manualTestData, out xTestFlat);
-            yPredictions = knn(xTrainFlat, yTrain, xTestFlat, k);
+            ZEROPOINT:
+            DataImageFlat[] xTestCustomFlat;
+            DataImage[] xTestCustom = ReadImagesFromFile(manualTestData, out xTestCustomFlat);
+            InspectImages(xTestCustomFlat, new []{ (byte)'?' }, 0, 1);
+            yPredictions = knn(xTrainFlat, yTrain, xTestCustomFlat, k);
+            char[] charPredictions = new char[yPredictions.Length];
+            for(int yPredIndex = 0; yPredIndex < charPredictions.Length; yPredIndex++)
+            {
+                charPredictions[yPredIndex] = Fonts.Labels[(int)yPredictions[yPredIndex]];
+            }
             Console.WriteLine("predictions: [{0}]", string.Join(", ", yPredictions));
+            Console.WriteLine("predictions: [{0}]", string.Join(", ", charPredictions));
+
+            Console.ReadLine();
+            goto ZEROPOINT;
         }
 
         static byte[] ReadLabels(string path, int maxLabels = 0, bool skipMagicNumber = true)
